@@ -22,7 +22,7 @@ module.exports = {
         "allowFirstLine": false
       }
     }],
-    "vue/singleline-html-element-content-newline": "off",
+    // "vue/singleline-html-element-content-newline": "off",
     "vue/multiline-html-element-content-newline":"off",
     "vue/name-property-casing": ["error", "PascalCase"],
     "vue/no-v-html": "off",
@@ -199,6 +199,8 @@ module.exports = {
     indent: ['error', 2],
     'no-unused-vars': 'warn',
     'vue/no-unused-vars': 'warn',
+    "vue/html-self-closing": "off",
+
     
   }
 }
