@@ -9,6 +9,8 @@ import store from './store'
 import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
+import categorySelect from '@/components/categorySelect/index'
+
 import API from '@/api/index'// 接口模块直接挂载到原型上，方便使用
 Vue.prototype.$API = API
 /**
@@ -28,7 +30,7 @@ if (process.env.NODE_ENV === 'production') {
 Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
-
+Vue.component('categorySelect', categorySelect)
 Vue.config.productionTip = false
 
 new Vue({
