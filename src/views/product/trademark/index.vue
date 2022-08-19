@@ -11,7 +11,7 @@
       表格是一列一列的，每一列都是el-table-column，代表一列
       border是表格边框
       label是显示的标题字符串形式
-      widt对应列的宽度
+      width对应列的宽度
       align标题对其方式
     -->
     <el-table style="width=100%" border :data="list">
