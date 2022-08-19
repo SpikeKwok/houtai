@@ -10,6 +10,7 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 import categorySelect from '@/components/categorySelect/index'
+import HintButton from '@/components/HintButton/index'
 
 import API from '@/api/index'// 接口模块直接挂载到原型上，方便使用
 Vue.prototype.$API = API
@@ -31,6 +32,7 @@ Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
 Vue.component('categorySelect', categorySelect)
+Vue.component('hint-button', HintButton)
 Vue.config.productionTip = false
 
 new Vue({

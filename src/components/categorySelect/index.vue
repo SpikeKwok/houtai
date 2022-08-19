@@ -2,23 +2,19 @@
   <div>
     <!-- inline代表一行可以放多个表单元素 -->
     <el-form :inline="true" class="demo-form-inline" :model="cForm">
-
       <!-- 一 -->
       <el-form-item label="一级菜单" style="margin-right:30px;">
         <!-- select数据可以用过v-model收集，但收集的是它的value -->
         <!-- 注意：这个change事件是自定义事件 ， 是ui自带的事件，选中值发生变化时触发-->
         <el-select v-model="cForm.category1Id" :disabled="show" placeholder="请选择" value="" @change="handler1(cForm.category1Id)">
           <el-option v-for="(c1,index) in list1" :key="c1.id" :label="c1.name" :value="c1.id"></el-option>
-
         </el-select>
       </el-form-item>
 
       <!-- 二 -->
       <el-form-item label="二级菜单" style="margin-right:30px;">
         <el-select v-model="cForm.category2Id" :disabled="show" placeholder="请选择" value="" @change="handler2(cForm.category2Id)">
-
           <el-option v-for="(c2,index) in list2" :key="c2.id" :label="c2.name" :value="c2.id"></el-option>
-
         </el-select>
       </el-form-item>
 
@@ -26,7 +22,8 @@
       <el-form-item label="三级菜单">
         <el-select v-model="cForm.category3Id" :disabled="show" placeholder="请选择" value="" @change="handler3(cForm.category3Id)">
           <el-option v-for="(c3,index) in list3" :key="c3.id" :label="c3.name" :value="c3.id"></el-option>
-        </el-select></el-form-item>
+        </el-select>
+      </el-form-item>
     </el-form>
   </div>
 </template>

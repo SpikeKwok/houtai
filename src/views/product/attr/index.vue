@@ -21,13 +21,11 @@
           <el-table-column label="属性值列表" width="width">
             <!-- 这里用作用域插槽，el-table-column可以直接用data数据，但它的内容要用返回的数据 -->
             <template #default="{row,$index}">
-
               <!-- row是当前数组元素的数据 -->
               <el-tag v-for="(attrValueList,index) in row.attrValueList" :key="attrValueList.id" type="success" style="margin-right:10px">
                 {{ attrValueList.valueName }}
               </el-tag>
             </template>
-
           </el-table-column>
           <el-table-column label="操作" width="150">
             <!-- 两个按钮，也要用到id数据发请求，用插槽 -->
@@ -36,7 +34,6 @@
               <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
             </template>
           </el-table-column>
-
         </el-table>
       </div>
       <!-- 添加和修改按钮显示的页面 -->
@@ -46,11 +43,12 @@
           <el-form-item label="属性名">
             <!-- 属性名收集 -->
             <el-input v-model="attrInfo.attrName" placeholder="请输入属性名"></el-input>
-
           </el-form-item>
         </el-form>
         <!-- 两个按钮 -->
-        <el-button type="primary" icon="el-icon-plus" :disabled="!attrInfo.attrName" @click="addAttrValue">添加属性值</el-button>
+        <el-button type="primary" icon="el-icon-plus" :disabled="!attrInfo.attrName" @click="addAttrValue">
+          添加属性值
+        </el-button>
         <el-button>取消</el-button>
         <!-- 添加的表格 -->
         <el-table border style="margin:20px 0" :data="attrInfo.attrValueList">
@@ -59,15 +57,7 @@
             <template #default="{row,$index}">
               <!-- 自定义事件keyup要想绑enter要先变成原生事件 -->
               <!-- 绑定ref为$index,区分当前输入框 -->
-              <el-input
-                v-if="row.flag"
-                :ref="$index"
-                v-model="row.valueName"
-                placeholder="请输入属性值名称"
-                size="mini"
-                @blur="toLook(row)"
-                @keyup.native.enter="toLook(row)"
-              ></el-input>
+              <el-input v-if="row.flag" :ref="$index" v-model="row.valueName" placeholder="请输入属性值名称" size="mini" @blur="toLook(row)" @keyup.native.enter="toLook(row)"></el-input>
               <span v-else style="display:block" @click="toEdit(row,$index)">{{ row.valueName }}</span>
             </template>
           </el-table-column>
@@ -75,17 +65,19 @@
             <template #default="{row,$index}">
               <el-popconfirm :title="`确定删除${row.valueName}?`" @onConfirm="deleteAttrValue($index)">
                 <el-button slot="reference" type="danger" icon="el-icon-delete" size="mini"></el-button>
-
               </el-popconfirm>
             </template>
           </el-table-column>
         </el-table>
-        <el-button type="primary" :disabled="attrInfo.attrValueList.length<1" @click="addOrUpdateAttr">保存</el-button>
-        <el-button @click="isShowTable=true">取消</el-button>
+        <el-button type="primary" :disabled="attrInfo.attrValueList.length<1" @click="addOrUpdateAttr">
+          保存
+        </el-button>
+        <el-button @click="isShowTable=true">
+          取消
+        </el-button>
       </div>
     </el-card>
   </div>
-
 </template>
 
 <script>
@@ -103,10 +95,11 @@ export default {
       // 收集新增|修改属性使用的
       attrInfo: {
         // id:'', 属性名的id，每个属性名下的属性值，的id都跟属性名一致
-        'attrName': '', // 属性名
-        'categoryId': 0, // 三级分类的id,这里能不能写this.category3Id,不能，因为对象是无序存储，不知道谁先谁后
-        'categoryLevel': 3, // 服务器需要区分几级id
-        'attrValueList': [// 属性值，因为属性值可以有多个，所以用数组，每一个属性值都是一个对象，需要attrId,valueName
+        attrName: '', // 属性名
+        categoryId: 0, // 三级分类的id,这里能不能写this.category3Id,不能，因为对象是无序存储，不知道谁先谁后
+        categoryLevel: 3, // 服务器需要区分几级id
+        attrValueList: [
+          // 属性值，因为属性值可以有多个，所以用数组，每一个属性值都是一个对象，需要attrId,valueName
         ]
       }
     }
@@ -157,7 +150,7 @@ export default {
       this.$nextTick(() => {
         // 获取相应的表单元素实现聚焦
         // console.log(this.$refs[index])
-        this.$refs[(this.attrInfo.attrValueList.length - 1)].focus()
+        this.$refs[this.attrInfo.attrValueList.length - 1].focus()
       })
     },
     // 展示页面的 添加属性 按钮
@@ -165,13 +158,12 @@ export default {
       this.isShowTable = false
       // 清除添加页面的列表数据
       this.attrInfo = {
-
-        'attrName': '', // 属性名
-        'categoryId': this.category3Id, // 能点击按钮时代表三个id都有了，这个地方可以直接替换了
-        'categoryLevel': 3, // 服务器需要区分几级id
-        'attrValueList': [// 属性值，因为属性值可以有多个，所以用数组，每一个属性值都是一个对象，需要attrId,valueName
+        attrName: '', // 属性名
+        categoryId: this.category3Id, // 能点击按钮时代表三个id都有了，这个地方可以直接替换了
+        categoryLevel: 3, // 服务器需要区分几级id
+        attrValueList: [
+          // 属性值，因为属性值可以有多个，所以用数组，每一个属性值都是一个对象，需要attrId,valueName
         ]
-
       }
     },
     // 展示页面的 修改 按钮
@@ -263,5 +255,4 @@ export default {
 </script>
 
 <style>
-
 </style>
