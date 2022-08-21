@@ -7,19 +7,19 @@
       <el-table-column prop="skuDesc" label="描述" width="width"></el-table-column>
       <el-table-column label="默认图片" width="110">
         <template slot-scope="{ row, $index }">
-          <!-- <img :src="row.skuDefaultImg" alt="" style="width: 80px; height: 80px" /> -->
+          <img :src="row.skuDefaultImg" alt="" style="width: 80px; height: 80px" />
         </template>
       </el-table-column>
       <el-table-column prop="weight" label="重量" width="80"></el-table-column>
       <el-table-column prop="price" label="价格" width="80"></el-table-column>
       <el-table-column prop="prop" label="操作" width="width">
-        <!-- <template slot-scope="{ row, $index }">
+        <template slot-scope="{ row, $index }">
           <el-button v-if="row.isSale == 0" type="success" icon="el-icon-sort-down" size="mini" @click="sale(row)"></el-button>
           <el-button v-else type="success" icon="el-icon-sort-up" size="mini" @click="cancel(row)"></el-button>
           <el-button type="primary" icon="el-icon-edit" size="mini" @click="edit"></el-button>
           <el-button type="info" icon="el-icon-info" size="mini" @click="getSkuInfo(row)"></el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
-        </template> -->
+        </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
@@ -27,7 +27,9 @@
     </el-pagination>
     <!-- 抽屉效果 -->
     <el-drawer :visible.sync="show" :show-close="false" size="50%">
+      <!-- row是行 -->
       <el-row>
+        <!-- col是列，列默认24份，span控制份数 -->
         <el-col :span="5">
           名称
         </el-col>
@@ -98,12 +100,56 @@ export default {
     this.getSkuList()
   },
   methods: {
-
+    // 按页展示数据
+    async getSkuList(pages = 1) {
+      this.page = pages
+      const { page, limit } = this
+      const result = await this.$API.sku.reqSkuList(page, limit)
+      if (result.code === 200) {
+        this.total = result.data.total
+        this.records = result.data.records
+      }
+    },
+    // 每页展示的数据条数
+    handleSizeChange(limit) {
+      this.limit = limit
+      this.getSkuList()
+    },
+    // 上架
+    async sale(row) {
+      const result = await this.$API.sku.reqSale(row.id)
+      if (result.code === 200) {
+        row.isSale = 1
+        this.$message({ type: 'success', message: '上架成功' })
+      }
+    },
+    // 下架
+    async cancel(row) {
+      const result = await this.$API.sku.reqCancel(row.id)
+      if (result.code === 200) {
+        row.isSale = 0
+        this.$message({ type: 'success', message: '下架成功' })
+      }
+    },
+    // 编辑按钮
+    edit() {
+      this.$message('正在开发中')
+    },
+    // 抽屉展示数据
+    async getSkuInfo(sku) {
+      // 显示抽屉
+      this.show = true
+      const result = await this.$API.sku.reqSkuById(sku.id)
+      if (result.code === 200) {
+        this.skuInfo = result.data
+      }
+    }
   }
 }
 </script>
 
 <style>
+/* 轮播图样式 */
 .el-carousel__item h3 {
   color: #475669;
   font-size: 14px;
@@ -122,6 +168,7 @@ export default {
 </style>
 
 <style scoped>
+/* layout布局，行和列的样式 */
 .el-row .el-col-5 {
   font-size: 18px;
   text-align: right;
@@ -130,7 +177,7 @@ export default {
   margin: 10px 10px;
 }
 
- .el-carousel__button {
+>>>.el-carousel__button {
   width: 10px;
   height: 10px;
   background: red;
